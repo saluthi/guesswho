@@ -1,33 +1,40 @@
 import { h, Component } from 'preact';
-import { Card } from 'antd';
-
-const { Meta } = Card;
 
 export default class Face extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { flipped: true };
+    this.state = { flipped: false };
     this.flip = this.flip.bind(this);
+    this.reset = this.reset.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.events.on('reset', this.reset);
+  }
+
+  componentWillUnmount() {
+    this.props.events.off('reset', this.reset);
   }
 
   flip() {
     this.setState({ flipped: !this.state.flipped });
   }
 
+  reset() {
+    this.setState({ flipped: false });
+  }
+
   render(props, state) {
-    const name = (state.flipped) ? props.name : 'Ghesswho';
-    const imagePath = (state.flipped) ? props.imagePath : 'guesswho.jpg';
+    const flipped = (state.flipped) ? 'flipped' : '';
     return (
-      <Card hoverable
-        cover={
-          <img alt={name}
-            src={`/assets/images/${imagePath}`}
-          />
-        } 
-        onClick={ this.flip }>
-        <p style={{ textAlign: 'center', fontSize: '0.8em' }}>{ name }</p>
-      </Card>
+      <div class={`face ${flipped}`}
+        onClick={this.flip} >
+        <img alt={props.name}
+          src={`/assets/images/${props.imagePath}`}
+        />
+        <p class="name">{ props.name }</p>
+      </div>
     );
   }
 

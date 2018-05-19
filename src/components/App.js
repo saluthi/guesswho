@@ -1,27 +1,36 @@
 import { h } from 'preact';
-import { Layout, Row, Col } from 'antd';
+import { Grid, Row, Col } from 'react-flexbox-grid';
+import mitt from 'mitt';
 import Face from './Face';
 import * as faceList from '../assets/faces.json';
-
-const { Content } = Layout;
 
 if (module.hot) {
 	require('preact/debug');
 }
 
+const events = mitt();
+
+const reset = () => events.emit('reset');
+
 const App = () => (
-	<div class="App">
-		<Layout>
-			<Content style={{ padding: '15px 5px', height: '100vh' }}>
-				<Row>
-					{faceList.map(({ name, imagePath }) => (
-						<Col xs={6} sm={4} md={2}>
-							<Face name={name} imagePath={imagePath} />
-						</Col>
-					))}
-				</Row>
-			</Content>
-		</Layout>
+	<div class="app">
+		<Grid>
+			<Row>
+				{faceList.map(({ name, imagePath }) => (
+					<Col xs={4} sm={2} md={1}>
+						<Face name={name}
+							imagePath={imagePath}
+							events={events}
+						/>
+					</Col>
+				))}
+			</Row>
+		</Grid>
+		<div class="footer">
+			<button class="ripple" onClick={reset}>
+				Reset
+			</button>
+		</div>
 	</div>
 );
 

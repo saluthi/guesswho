@@ -1,11 +1,11 @@
 {
-  "name": "guesswho",
-  "short_name": "guesswho",
+  "name": "Guess Who",
+  "short_name": "Guesswho",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#fff",
-  "theme_color": "#673ab8",
+  "background_color": "beige",
+  "theme_color": "coral",
   "icons": [
     {
       "src": "/assets/icons/android-chrome-192x192.png",
