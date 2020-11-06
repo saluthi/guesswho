@@ -15,8 +15,10 @@
   "homepage": "https://github.com/saluthi/guesswho#readme",
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
-    "start": "next start"
+    "build": "next build && next export && touch out/.nojekyll && touch out/CNAME && echo \"guesswho.salut-hi.com\" >> out/CNAME",
+    "start": "next start",
+    "predeploy": "npm run build",
+    "deploy": "push-dir --dir=out --branch=gh-pages"
   },
   "dependencies": {
     "mitt": "^2.1.0",
@@ -27,5 +29,8 @@
     "react-dom": "^17.0.1",
     "react-flexbox-grid": "^2.1.2",
     "tailwindcss": "^1.9.6"
+  },
+  "devDependencies": {
+    "push-dir": "^0.4.1"
   }
 }
