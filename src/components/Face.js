@@ -1,41 +1,24 @@
-import { h, Component } from 'preact';
+import { useState, useEffect } from 'react';
 
-export default class Face extends Component {
+export default function Face(props) {
+  const [flipped, setFlipped] = useState(false)
 
-  constructor(props) {
-    super(props);
-    this.state = { flipped: false };
-    this.flip = this.flip.bind(this);
-    this.reset = this.reset.bind(this);
-  }
+  const flip = () => setFlipped(!flipped)
+  const reset = () => setFlipped(false)
 
-  componentDidMount() {
-    this.props.events.on('reset', this.reset);
-  }
+  useEffect(() => {
+    props.events.on('reset', reset)
+  },[props,reset])
 
-  componentWillUnmount() {
-    this.props.events.off('reset', this.reset);
-  }
 
-  flip() {
-    this.setState({ flipped: !this.state.flipped });
-  }
-
-  reset() {
-    this.setState({ flipped: false });
-  }
-
-  render(props, state) {
-    const flipped = (state.flipped) ? 'flipped' : '';
-    return (
-      <div class={`face ${flipped}`}
-        onClick={this.flip} >
-        <img alt={props.name}
-          src={`/assets/images/${props.imagePath}`}
-        />
-        <p class="name">{ props.name }</p>
-      </div>
-    );
-  }
-
+  return (
+    <div className={`face ${flipped ? 'flipped' : ''}`}
+      onClick={flip}
+    >
+      <img alt={props.name}
+        src={`/images/${props.imagePath}`}
+      />
+      <p className="name">{ props.name }</p>
+    </div>
+  )
 }
